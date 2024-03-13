@@ -1,5 +1,4 @@
-// import fs from 'fs';
-import fs from 'node:fs'
+import fs from 'fs';
 import {
   numberValue,
   findFiles,
@@ -25,10 +24,6 @@ describe('utils.ts', () => {
     deleteFiles()
   })
 
-  // afterEach(async () => {
-  //   deleteFiles();
-  // });
-
   it('should parse number values', async () => {
     expect(numberValue(0, 1)).toBe(0)
     expect(numberValue(1, 2)).toBe(1)
@@ -42,10 +37,10 @@ describe('utils.ts', () => {
   it('should resolve correct files', async () => {
     const uploadFiles = await findFiles('__tests__/data/nexus')
     expect(uploadFiles.length).toBe(2)
-    // expect(uploadFiles[0].name).toBe('test.txt');
-    // expect(uploadFiles[0].group).toBe('org/example');
-    // expect(uploadFiles[1].name).toBe('test.txt.asc');
-    // expect(uploadFiles[1].group).toBe('org/example');
+    expect(uploadFiles[0].name).toBe('test.txt.asc');
+    expect(uploadFiles[0].group).toBe('org/example');
+    expect(uploadFiles[1].name).toBe('test.txt');
+    expect(uploadFiles[1].group).toBe('org/example');
   })
 
   it('should create checksums', async () => {
@@ -72,36 +67,15 @@ describe('utils.ts', () => {
   })
 
   it('should generate checksum files', async () => {
-    const xxx = await generateChecksumFiles('__tests__/data/nexus', [
+    await generateChecksumFiles('__tests__/data/nexus', [
       { type: 'md5', extension: 'md5' },
       { type: 'sha1', extension: 'sha1' },
       { type: 'sha256', extension: 'sha256' },
       { type: 'sha512', extension: 'sha512' }
     ])
-    // expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.md5')).toBe(false);
-    // expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha1')).toBe(false);
-    // expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha256')).toBe(false);
-    // expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha512')).toBe(false);
-
-    const e1 = fs.existsSync('__tests__/data/nexus/org/example/test.txt.md5')
-    const e2 = fs.existsSync('__tests__/data/nexus/org/example/test.txt.sha1')
-    const e3 = fs.existsSync('__tests__/data/nexus/org/example/test.txt.sha256')
-    const e4 = fs.existsSync('__tests__/data/nexus/org/example/test.txt.sha512')
-    expect(e1).toBe(true)
-    // expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.md5')).toBe(true);
-    // expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.sha1')).toBe(true);
-    // expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.sha256')).toBe(true);
-    // expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.sha512')).toBe(true);
+    expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.md5')).toBe(false);
+    expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha1')).toBe(false);
+    expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha256')).toBe(false);
+    expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha512')).toBe(false);
   })
-
-  // it('should generate pgp signature', async () => {
-  //   const sig = await pgpSign('test/data/nexus/org/example/test.txt', TEST_PRIVATE_KEY, 'gpgtest');
-  //   // just check that we get something
-  //   expect(sig).not.toBeNull();
-  // });
-
-  // it('should fail with pgp key', async () => {
-  //   const sig = pgpSign('test/data/nexus/org/example/test.txt', TEST_PRIVATE_KEY_BROKEN_NO_HEADER, 'gpgtest');
-  //   await expect(sig).rejects.toThrow(/Misformed armored text/);
-  // });
 })

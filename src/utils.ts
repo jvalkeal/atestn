@@ -1,8 +1,6 @@
 import fs from 'fs'
-// import glob from 'glob';
 import { glob } from 'glob'
 import path from 'path'
-// import { createMessage, readKey, decryptKey, sign, stream } from 'openpgp';
 import crypto from 'crypto'
 import { GenerateChecksum, UploadFile } from './interfaces'
 import { logInfo } from './logging'
@@ -134,42 +132,3 @@ export function numberValue(
 export function delayPromise(millis: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, millis))
 }
-
-// export async function generatePgpFiles(baseDir: string, privateKeyArmored: string, passphrase: string): Promise<void> {
-//   return new Promise((resolve, reject) => {
-//     glob(baseDir + '/**/!(*.asc)', (error, files) => {
-//       if (error) {
-//         reject(error);
-//         return;
-//       }
-//       let all: Promise<void>[] = [];
-//       files.forEach(path => {
-//         const stat = fs.lstatSync(path);
-//         if (stat.isFile()) {
-//           const p = pgpSign(path, privateKeyArmored, passphrase).then(sig => {
-//             const dpath = `${path}.asc`;
-//             logInfo(`Writing ${dpath}`);
-//             fs.writeFileSync(dpath, sig);
-//           });
-//           all.push(p);
-//         }
-//       });
-//       resolve(Promise.all(all).then());
-//     });
-//   });
-// }
-
-// export async function pgpSign(path: string, privateKeyArmored: string, passphrase: string): Promise<string> {
-//   const privateKey = await decryptKey({
-//     privateKey: await readKey({ armoredKey: privateKeyArmored }),
-//     passphrase
-//   });
-//   const readStream = fs.createReadStream(path);
-//   const message = await createMessage({ binary: readStream });
-//   const resultStream = await sign({
-//     message,
-//     privateKeys: privateKey,
-//     detached: true
-//   });
-//   return await stream.readToEnd(resultStream);
-// }

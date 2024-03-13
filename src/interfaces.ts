@@ -131,9 +131,6 @@ export interface ActionOptions {
   nexusServer: NexusServer
   generateChecksums: boolean
   generateChecksumsConfig: GenerateChecksum[]
-  gpgSign: boolean
-  gpgSignPassphrase: string
-  gpgSignPrivateKey: string
 }
 
 export interface Repository extends ErrorResponse {

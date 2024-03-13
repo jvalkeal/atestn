@@ -1,6 +1,6 @@
 import { inspect } from 'util'
 import { ActionOptions } from './interfaces'
-import { endGroup, logDebug, logInfo, logWarn, startGroup } from './logging'
+import { endGroup, logDebug, logInfo, startGroup } from './logging'
 import {
   closeStagingRepo,
   createStagingRepo,
@@ -11,7 +11,6 @@ import {
   stagingRepositoryActivity
 } from './nexus-utils'
 import { Nexus2Client } from './nexus2-client'
-// import { generateChecksumFiles, generatePgpFiles, delayPromise } from './utils';
 import { generateChecksumFiles, delayPromise } from './utils'
 
 export async function handle(actionOptions: ActionOptions): Promise<void> {
@@ -22,7 +21,6 @@ export async function handle(actionOptions: ActionOptions): Promise<void> {
 
   // initial state calculated from a given options
   const handlerState: HandlerState = {
-    needSign: actionOptions.gpgSign,
     needChecksum: actionOptions.generateChecksums,
     needCreate: actionOptions.create,
     stagingRepoId: actionOptions.stagingRepoId,
@@ -31,14 +29,6 @@ export async function handle(actionOptions: ActionOptions): Promise<void> {
     needRelease: actionOptions.release,
     needDrop: actionOptions.dropIfFailure
   }
-
-  // need to sign
-  // if (handlerState.needSign) {
-  //   startGroup('PGP Sign');
-  //   logInfo('Signing files');
-  //   await generatePgpFiles(actionOptions.dir, actionOptions.gpgSignPrivateKey, actionOptions.gpgSignPassphrase);
-  //   endGroup();
-  // }
 
   // need to checksum
   if (handlerState.needChecksum) {
@@ -164,7 +154,6 @@ async function dropRepo(
 }
 
 interface HandlerState {
-  needSign: boolean
   needChecksum: boolean
   needCreate: boolean
   stagingRepoId: string | undefined

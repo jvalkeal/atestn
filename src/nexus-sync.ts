@@ -36,9 +36,6 @@ export async function run() {
       generateChecksumsConfigData
         ? JSON.parse(generateChecksumsConfigData)
         : DEFAULT_GENERATE_CHECKSUM_CONFIG
-    const pgpSign = inputNotRequired('pgp-sign') === 'true' ? true : false
-    const pgpSignPrivateKey = inputNotRequired('pgp-sign-private-key')
-    const pgpSignPassphrase = inputNotRequired('pgp-sign-passphrase')
     const nexusTimeout = numberValue(inputNotRequired('nexus-timeout'), 0)
 
     if (uploadParallel < 1) {
@@ -67,10 +64,7 @@ export async function run() {
         timeout: nexusTimeout * 1000
       },
       generateChecksums,
-      generateChecksumsConfig,
-      gpgSign: pgpSign,
-      gpgSignPassphrase: pgpSignPassphrase,
-      gpgSignPrivateKey: pgpSignPrivateKey
+      generateChecksumsConfig
     }
     await handle(actionOptions)
   } catch (error) {
