@@ -1,5 +1,6 @@
 import fs from 'fs';
-import glob from 'glob';
+// import glob from 'glob';
+import { glob } from 'glob';
 import path from 'path';
 // import { createMessage, readKey, decryptKey, sign, stream } from 'openpgp';
 import crypto from 'crypto';
@@ -14,25 +15,27 @@ import { logInfo } from './logging';
  */
 export async function findFiles(baseDir: string): Promise<UploadFile[]> {
   return new Promise((resolve, reject) => {
-    glob(baseDir + '/**/*', (error, files) => {
-      if (error) {
+    return glob(baseDir + '/**/*').then(
+      files => {
+        let found: UploadFile[] = [];
+        files.forEach(f => {
+          const stat = fs.lstatSync(f);
+          if (stat.isFile()) {
+            found.push({
+              path: f,
+              name: path.basename(f),
+              group: path.relative(baseDir, path.dirname(f))
+            });
+            logInfo(`Found ${f}`);
+          }
+        });
+        resolve(found);
+      },
+      error => {
         reject(error);
         return;
       }
-      let found: UploadFile[] = [];
-      files.forEach(f => {
-        const stat = fs.lstatSync(f);
-        if (stat.isFile()) {
-          found.push({
-            path: f,
-            name: path.basename(f),
-            group: path.relative(baseDir, path.dirname(f))
-          });
-          logInfo(`Found ${f}`);
-        }
-      });
-      resolve(found);
-    });
+    );
   });
 }
 
@@ -68,27 +71,29 @@ export async function createCheckSums(path: string, config: GenerateChecksum[]):
 
 export async function generateChecksumFiles(baseDir: string, config: GenerateChecksum[]): Promise<void> {
   return new Promise((resolve, reject) => {
-    glob(baseDir + '/**/!(*.asc)', (error, files) => {
-      if (error) {
+    return glob(baseDir + '/**/!(*.asc)').then(
+      files => {
+        let all: Promise<void>[] = [];
+        files.forEach(path => {
+          const stat = fs.lstatSync(path);
+          if (stat.isFile()) {
+            const p = createCheckSums(path, config).then(res => {
+              res.forEach((digest, type) => {
+                const dpath = `${path}.${type}`;
+                logInfo(`Writing ${dpath}`);
+                fs.writeFileSync(dpath, digest);
+              });
+            });
+            all.push(p);
+          }
+        });
+        resolve(Promise.all(all).then());
+      },
+      error => {
         reject(error);
         return;
       }
-      let all: Promise<void>[] = [];
-      files.forEach(path => {
-        const stat = fs.lstatSync(path);
-        if (stat.isFile()) {
-          const p = createCheckSums(path, config).then(res => {
-            res.forEach((digest, type) => {
-              const dpath = `${path}.${type}`;
-              logInfo(`Writing ${dpath}`);
-              fs.writeFileSync(dpath, digest);
-            });
-          });
-          all.push(p);
-        }
-      });
-      resolve(Promise.all(all).then());
-    });
+      );
   });
 }
 
