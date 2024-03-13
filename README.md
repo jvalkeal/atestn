@@ -1,12 +1,8 @@
 # Nexus Sync Action
 
-<p align="left">
-  <a href="https://github.com/jvalkeal/nexus-sync"><img alt="Nexus Sync status" src="https://github.com/jvalkeal/nexus-sync/workflows/Test/badge.svg"></a>
-</p>
+A GitHub action for deploying to a Maven Central.
 
-**NOTE:** Work in progress to overcome bintray sunset
-
-### Arguments
+## Arguments
 
 | Input                       | Description                                                                            | Usage    |
 | --------------------------- | -------------------------------------------------------------------------------------- | -------- |
@@ -29,7 +25,7 @@
 | `upload-parallel`           | How many files are uploaded parallel, defaults to "1"                                  | Optional |
 | `nexus-timeout`             | How long in seconds to wait http requests to nexus, defaults to "0" meaning no timeout | Optional |
 
-# Usage
+## Usage
 
 See [action.yml](action.yml)
 
@@ -64,9 +60,6 @@ jobs:
         generate-checksums: true
 ```
 
-There are more detailed docs and samples under [docs](docs) directory.
+## License
 
-# License
-
-The scripts and documentation in this project are released under the
-[MIT License](LICENSE)
+Nexus Sync Action is Open Source software released under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
