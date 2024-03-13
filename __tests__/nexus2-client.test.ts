@@ -44,7 +44,7 @@ describe('nexus2-client tests', () => {
       .put('/nexus/service/local/staging/deployByRepositoryId/fake/org%2Fexample/test.txt')
       .reply(201);
     const uploadFile: UploadFile = {
-      path: 'test/data/nexus/org/example/test.txt',
+      path: '__tests__/data/nexus/org/example/test.txt',
       name: 'test.txt',
       group: 'org%2Fexample'
     };
