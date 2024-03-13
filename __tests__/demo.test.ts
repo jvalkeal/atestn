@@ -8,7 +8,6 @@ let originalContext = { ...github.context }
 let inputs = {} as any
 
 xdescribe('local sync tests', () => {
-
   beforeAll(async () => {
     jest.spyOn(core, 'getInput').mockImplementation((name: string) => {
       return inputs[name]

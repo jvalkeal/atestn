@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs'
 import {
   numberValue,
   findFiles,
@@ -37,10 +37,10 @@ describe('utils.ts', () => {
   it('should resolve correct files', async () => {
     const uploadFiles = await findFiles('__tests__/data/nexus')
     expect(uploadFiles.length).toBe(2)
-    expect(uploadFiles[0].name).toBe('test.txt.asc');
-    expect(uploadFiles[0].group).toBe('org/example');
-    expect(uploadFiles[1].name).toBe('test.txt');
-    expect(uploadFiles[1].group).toBe('org/example');
+    expect(uploadFiles[0].name).toBe('test.txt.asc')
+    expect(uploadFiles[0].group).toBe('org/example')
+    expect(uploadFiles[1].name).toBe('test.txt')
+    expect(uploadFiles[1].group).toBe('org/example')
   })
 
   it('should create checksums', async () => {
@@ -73,9 +73,17 @@ describe('utils.ts', () => {
       { type: 'sha256', extension: 'sha256' },
       { type: 'sha512', extension: 'sha512' }
     ])
-    expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.md5')).toBe(false);
-    expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha1')).toBe(false);
-    expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha256')).toBe(false);
-    expect(fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha512')).toBe(false);
+    expect(
+      fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.md5')
+    ).toBe(false)
+    expect(
+      fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha1')
+    ).toBe(false)
+    expect(
+      fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha256')
+    ).toBe(false)
+    expect(
+      fs.existsSync('__tests__/data/nexus/org/example/test.txt.asc.sha512')
+    ).toBe(false)
   })
 })

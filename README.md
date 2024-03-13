@@ -62,4 +62,5 @@ jobs:
 
 ## License
 
-Nexus Sync Action is Open Source software released under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
+Nexus Sync Action is Open Source software released under the
+[Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
