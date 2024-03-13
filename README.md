@@ -8,35 +8,35 @@
 
 ### Arguments
 
-| Input                       | Description                                                                                        | Usage    |
-| --------------------------- | ---------------------------------------------------------------------------------------------------| -------- |
-| `username`                  | Nexus username                                                                                     | Required |
-| `password`                  | Nexus password                                                                                     | Required |
-| `staging-profile-name`      | Nexus Staging Profile Name                                                                         | Required |
-| `dir`                       | Base directory for files to sync, defaults to "nexus"                                              | Optional |
-| `create`                    | Automatically create repository, defaults to "false"                                               | Optional |
-| `staging-repo-id`           | Nexus Staging Repo id                                                                              | Optional |
-| `close`                     | Automatically close repository, defaults to "false".                                               | Optional |
-| `drop-if-failure`           | Automatically drop repository, defaults to "false".                                                | Optional |
-| `close-timeout`             | How long in seconds to wait slow nexus close operation, defaults to "600"                          | Optional |
-| `release`                   | Automatically release repository, defaults to "false".                                             | Optional |
-| `release-auto-drop`         | Drop repo after release, defaults to "true".                                                       | Optional |
-| `release-timeout`           | How long in seconds to wait slow nexus release operation, defaults to "600"                        | Optional |
-| `generate-checksums`        | Generate checksums, defaults to "false"                                                            | Optional |
-| `generate-checksums-config` | Config to generate checksum files.                                                                 | Optional |
-| `url`                       | Base Nexus url, defaults to "https://oss.sonatype.org"                                             | Optional |
-| `upload`                    | Upload files, defaults to "false".                                                                 | Optional |
-| `upload-parallel`           | How many files are uploaded parallel, defaults to "1"                                              | Optional |
-| `nexus-timeout`             | How long in seconds to wait http requests to nexus, defaults to "0" meaning no timeout             | Optional |
+| Input                       | Description                                                                            | Usage    |
+| --------------------------- | -------------------------------------------------------------------------------------- | -------- |
+| `username`                  | Nexus username                                                                         | Required |
+| `password`                  | Nexus password                                                                         | Required |
+| `staging-profile-name`      | Nexus Staging Profile Name                                                             | Required |
+| `dir`                       | Base directory for files to sync, defaults to "nexus"                                  | Optional |
+| `create`                    | Automatically create repository, defaults to "false"                                   | Optional |
+| `staging-repo-id`           | Nexus Staging Repo id                                                                  | Optional |
+| `close`                     | Automatically close repository, defaults to "false".                                   | Optional |
+| `drop-if-failure`           | Automatically drop repository, defaults to "false".                                    | Optional |
+| `close-timeout`             | How long in seconds to wait slow nexus close operation, defaults to "600"              | Optional |
+| `release`                   | Automatically release repository, defaults to "false".                                 | Optional |
+| `release-auto-drop`         | Drop repo after release, defaults to "true".                                           | Optional |
+| `release-timeout`           | How long in seconds to wait slow nexus release operation, defaults to "600"            | Optional |
+| `generate-checksums`        | Generate checksums, defaults to "false"                                                | Optional |
+| `generate-checksums-config` | Config to generate checksum files.                                                     | Optional |
+| `url`                       | Base Nexus url, defaults to "https://oss.sonatype.org"                                 | Optional |
+| `upload`                    | Upload files, defaults to "false".                                                     | Optional |
+| `upload-parallel`           | How many files are uploaded parallel, defaults to "1"                                  | Optional |
+| `nexus-timeout`             | How long in seconds to wait http requests to nexus, defaults to "0" meaning no timeout | Optional |
 
 # Usage
 
 See [action.yml](action.yml)
 
-On default this action really does nothing unless needed configs are
-in place.
+On default this action really does nothing unless needed configs are in place.
 
 This normal example of an action does:
+
 - Takes everything under base directory _nexus_
 - Create _md5_ and _sha_ checksums
 - Creates a stating repo
@@ -68,4 +68,5 @@ There are more detailed docs and samples under [docs](docs) directory.
 
 # License
 
-The scripts and documentation in this project are released under the [MIT License](LICENSE)
+The scripts and documentation in this project are released under the
+[MIT License](LICENSE)

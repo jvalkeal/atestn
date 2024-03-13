@@ -1,25 +1,25 @@
-import * as core from '@actions/core';
+import * as core from '@actions/core'
 
 export function logWarn(message: string) {
-  core.warning(message);
+  core.warning(message)
 }
 
 export function logError(message: string) {
-  core.error(message);
+  core.error(message)
 }
 
 export function logInfo(message: string) {
-  core.info(message);
+  core.info(message)
 }
 
 export function logDebug(message: string) {
-  core.debug(message);
+  core.debug(message)
 }
 
 export function startGroup(group: string) {
-  core.startGroup(group);
+  core.startGroup(group)
 }
 
 export function endGroup() {
-  core.endGroup();
+  core.endGroup()
 }

@@ -4,10 +4,10 @@
 export interface ErrorResponse {
   errors?: [
     {
-      id: string;
-      msg: string;
+      id: string
+      msg: string
     }
-  ];
+  ]
 }
 
 /**
@@ -16,10 +16,10 @@ export interface ErrorResponse {
 export interface StagingProfilesResponse extends ErrorResponse {
   data: [
     {
-      id: string;
-      name: string;
+      id: string
+      name: string
     }
-  ];
+  ]
 }
 
 /**
@@ -27,8 +27,8 @@ export interface StagingProfilesResponse extends ErrorResponse {
  */
 export interface PromoteStartRequest {
   data: {
-    description: string;
-  };
+    description: string
+  }
 }
 
 /**
@@ -36,9 +36,9 @@ export interface PromoteStartRequest {
  */
 export interface PromoteStartResponse extends ErrorResponse {
   data: {
-    description: string;
-    stagedRepositoryId: string;
-  };
+    description: string
+    stagedRepositoryId: string
+  }
 }
 
 /**
@@ -46,10 +46,10 @@ export interface PromoteStartResponse extends ErrorResponse {
  */
 export interface PromoteFinishRequest {
   data: {
-    stagedRepositoryId: string;
-    targetRepositoryId?: string;
-    description: string;
-  };
+    stagedRepositoryId: string
+    targetRepositoryId?: string
+    description: string
+  }
 }
 
 /**
@@ -62,10 +62,10 @@ export interface PromoteFinishResponse extends ErrorResponse {}
  */
 export interface BulkPromoteRequest {
   data: {
-    stagedRepositoryIds: string[];
-    autoDropAfterRelease: boolean;
-    description: string;
-  };
+    stagedRepositoryIds: string[]
+    autoDropAfterRelease: boolean
+    description: string
+  }
 }
 
 /**
@@ -78,10 +78,10 @@ export interface BulkPromoteResponse extends ErrorResponse {}
  */
 export interface PromoteDropRequest {
   data: {
-    stagedRepositoryId: string;
-    targetRepositoryId?: string;
-    description: string;
-  };
+    stagedRepositoryId: string
+    targetRepositoryId?: string
+    description: string
+  }
 }
 
 /**
@@ -93,15 +93,15 @@ export interface PromoteDropResponse extends ErrorResponse {}
  * Keep nexus server setting together.
  */
 export interface NexusServer {
-  url: string;
-  username: string;
-  password: string;
-  timeout: number;
+  url: string
+  username: string
+  password: string
+  timeout: number
 }
 
 export interface GenerateChecksum {
-  type: string;
-  extension: string;
+  type: string
+  extension: string
 }
 
 /**
@@ -110,47 +110,47 @@ export interface GenerateChecksum {
 export const DEFAULT_GENERATE_CHECKSUM_CONFIG: GenerateChecksum[] = [
   { type: 'md5', extension: 'md5' },
   { type: 'sha1', extension: 'sha1' }
-];
+]
 
 /**
  * Options for action to ease passing those around.
  */
 export interface ActionOptions {
-  create: boolean;
-  stagingProfileName: string;
-  stagingRepoId: string | undefined;
-  upload: boolean;
-  uploadParallel: number;
-  close: boolean;
-  closeTimeout: number;
-  dropIfFailure: boolean;
-  release: boolean;
-  releaseAutoDrop: boolean;
-  releaseTimeout: number;
-  dir: string;
-  nexusServer: NexusServer;
-  generateChecksums: boolean;
-  generateChecksumsConfig: GenerateChecksum[];
-  gpgSign: boolean;
-  gpgSignPassphrase: string;
-  gpgSignPrivateKey: string;
+  create: boolean
+  stagingProfileName: string
+  stagingRepoId: string | undefined
+  upload: boolean
+  uploadParallel: number
+  close: boolean
+  closeTimeout: number
+  dropIfFailure: boolean
+  release: boolean
+  releaseAutoDrop: boolean
+  releaseTimeout: number
+  dir: string
+  nexusServer: NexusServer
+  generateChecksums: boolean
+  generateChecksumsConfig: GenerateChecksum[]
+  gpgSign: boolean
+  gpgSignPassphrase: string
+  gpgSignPrivateKey: string
 }
 
 export interface Repository extends ErrorResponse {
-  notifications: number;
-  type: string;
+  notifications: number
+  type: string
 }
 
 export interface Activity {
-  events: Event[];
-  name: string;
-  started: string;
-  stopped: string;
+  events: Event[]
+  name: string
+  started: string
+  stopped: string
 }
 
 export interface Event {
-  name: string;
-  properties: Map<string, string>;
+  name: string
+  properties: Map<string, string>
 }
 
 /**
@@ -159,7 +159,7 @@ export interface Event {
  * escaped group id accepted by nexus requests.
  */
 export interface UploadFile {
-  path: string;
-  name: string;
-  group: string;
+  path: string
+  name: string
+  group: string
 }

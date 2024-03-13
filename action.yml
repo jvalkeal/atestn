@@ -24,7 +24,8 @@ inputs:
     description: 'Automatically drop repository, defaults to "false".'
     required: false
   close-timeout:
-    description: 'How long in seconds to wait slow nexus close operation, defaults to "600"'
+    description:
+      'How long in seconds to wait slow nexus close operation, defaults to "600"'
     required: false
   release:
     description: 'Automatically release repository, defaults to "false".'
@@ -33,7 +34,9 @@ inputs:
     description: 'Drop repo after release, defaults to "true".'
     required: false
   release-timeout:
-    description: 'How long in seconds to wait slow nexus release operation, defaults to "600"'
+    description:
+      'How long in seconds to wait slow nexus release operation, defaults to
+      "600"'
     required: false
   generate-checksums:
     description: 'Generate checksums, defaults to "false"'
@@ -63,7 +66,9 @@ inputs:
     description: 'Base directory for files to sync, defaults to "nexus"'
     required: false
   nexus-timeout:
-    description: 'How long in seconds to wait http requests to nexus, defaults to "0" meaning no timeout'
+    description:
+      'How long in seconds to wait http requests to nexus, defaults to "0"
+      meaning no timeout'
     required: false
 runs:
   using: node20

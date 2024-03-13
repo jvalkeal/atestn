@@ -32,50 +32,45 @@ export const STAGING_PROFILES_1 = `
     }
   ]
 }
-`;
-
-export const STAGING_START_1 =
 `
+
+export const STAGING_START_1 = `
 {
   "data": {
     "description": "test",
     "stagedRepositoryId": "test-1004"
   }
 }
-`;
-
-export const REPOSITORY_1 =
 `
+
+export const REPOSITORY_1 = `
 {
   "repositoryId": "test-xxx",
   "transitioning": false,
   "type": "open",
   "notifications": 0
 }
-`;
-
-export const REPOSITORY_2 =
 `
+
+export const REPOSITORY_2 = `
 {
   "repositoryId": "test-xxx",
   "transitioning": false,
   "type": "closed",
   "notifications": 0
 }
-`;
-
-export const REPOSITORY_3 =
 `
+
+export const REPOSITORY_3 = `
 {
   "repositoryId": "test-xxx",
   "transitioning": false,
   "type": "open",
   "notifications": 3
 }
-`;
-
-export const ACTIVITY_1 =
 `
+
+export const ACTIVITY_1 = `
 [
   {
     "events": [
@@ -214,10 +209,9 @@ export const ACTIVITY_1 =
     "stopped": "2021-02-21T09:48:53.293Z"
   }
 ]
-`;
-
-export const ERROR_NO_REPO_1 =
 `
+
+export const ERROR_NO_REPO_1 = `
 {
   "errors": [
       {
@@ -226,4 +220,4 @@ export const ERROR_NO_REPO_1 =
       }
   ]
 }
-`;
+`

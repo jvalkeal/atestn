@@ -1,11 +1,11 @@
-import fs from 'fs';
+import fs from 'fs'
 // import glob from 'glob';
-import { glob } from 'glob';
-import path from 'path';
+import { glob } from 'glob'
+import path from 'path'
 // import { createMessage, readKey, decryptKey, sign, stream } from 'openpgp';
-import crypto from 'crypto';
-import { GenerateChecksum, UploadFile } from './interfaces';
-import { logInfo } from './logging';
+import crypto from 'crypto'
+import { GenerateChecksum, UploadFile } from './interfaces'
+import { logInfo } from './logging'
 
 /**
  * Find files from a base directory to get uploaded by automatically
@@ -17,113 +17,122 @@ export async function findFiles(baseDir: string): Promise<UploadFile[]> {
   return new Promise((resolve, reject) => {
     return glob(baseDir + '/**/*').then(
       files => {
-        let found: UploadFile[] = [];
+        let found: UploadFile[] = []
         files.forEach(f => {
-          const stat = fs.lstatSync(f);
+          const stat = fs.lstatSync(f)
           if (stat.isFile()) {
             found.push({
               path: f,
               name: path.basename(f),
               group: path.relative(baseDir, path.dirname(f))
-            });
-            logInfo(`Found ${f}`);
+            })
+            logInfo(`Found ${f}`)
           }
-        });
-        resolve(found);
+        })
+        resolve(found)
       },
       error => {
-        reject(error);
-        return;
+        reject(error)
+        return
       }
-    );
-  });
+    )
+  })
 }
 
-export async function createCheckSums(path: string, config: GenerateChecksum[]): Promise<Map<string, string>> {
+export async function createCheckSums(
+  path: string,
+  config: GenerateChecksum[]
+): Promise<Map<string, string>> {
   return new Promise<Map<string, string>>((resolve, reject) => {
-    const stat = fs.lstatSync(path);
+    const stat = fs.lstatSync(path)
     if (stat.isFile()) {
-      const hashes = new Map<string, crypto.Hash>();
+      const hashes = new Map<string, crypto.Hash>()
       config.forEach(c => {
-        const hash = crypto.createHash(c.type);
-        hashes.set(c.type, hash);
-      });
-      const stream = fs.createReadStream(path);
+        const hash = crypto.createHash(c.type)
+        hashes.set(c.type, hash)
+      })
+      const stream = fs.createReadStream(path)
       stream.on('data', data => {
         for (const hash of hashes.values()) {
-          hash.update(data);
+          hash.update(data)
           // hash.update(data, 'utf8');
         }
-      });
+      })
       stream.on('end', () => {
-        const digests = new Map<string, string>();
+        const digests = new Map<string, string>()
         hashes.forEach((hash, type) => {
-          const digest = hash.digest('hex');
-          digests.set(type, digest);
-        });
-        resolve(digests);
-      });
+          const digest = hash.digest('hex')
+          digests.set(type, digest)
+        })
+        resolve(digests)
+      })
     } else {
-      reject(`${path} is not a file`);
+      reject(`${path} is not a file`)
     }
-  });
+  })
 }
 
-export async function generateChecksumFiles(baseDir: string, config: GenerateChecksum[]): Promise<void> {
+export async function generateChecksumFiles(
+  baseDir: string,
+  config: GenerateChecksum[]
+): Promise<void> {
   return new Promise((resolve, reject) => {
     return glob(baseDir + '/**/!(*.asc)').then(
       files => {
-        let all: Promise<void>[] = [];
+        let all: Promise<void>[] = []
         files.forEach(path => {
-          const stat = fs.lstatSync(path);
+          const stat = fs.lstatSync(path)
           if (stat.isFile()) {
             const p = createCheckSums(path, config).then(res => {
               res.forEach((digest, type) => {
-                const dpath = `${path}.${type}`;
-                logInfo(`Writing ${dpath}`);
-                fs.writeFileSync(dpath, digest);
-              });
-            });
-            all.push(p);
+                const dpath = `${path}.${type}`
+                logInfo(`Writing ${dpath}`)
+                fs.writeFileSync(dpath, digest)
+              })
+            })
+            all.push(p)
           }
-        });
-        resolve(Promise.all(all).then());
+        })
+        resolve(Promise.all(all).then())
       },
       error => {
-        reject(error);
-        return;
+        reject(error)
+        return
       }
-      );
-  });
+    )
+  })
 }
 
 /**
  * Returns value or default and handles if value is "falsy".
  */
-export function numberValue(value: number | string | undefined, defaultValue: number): number {
-  let v: number | undefined;
+export function numberValue(
+  value: number | string | undefined,
+  defaultValue: number
+): number {
+  let v: number | undefined
   if (typeof value === 'string') {
     if (value.length > 0) {
-      v = parseInt(value, 10);
+      v = parseInt(value, 10)
       if (isNaN(v)) {
-        throw new Error(`Can't parse '${value}' as number`);
+        throw new Error(`Can't parse '${value}' as number`)
       }
     }
   } else {
-    v = value;
+    v = value
   }
 
   if (v === 0) {
-    return v;
+    return v
   }
-  return v || defaultValue;
+  return v || defaultValue
 }
 
 /**
  * Returns a simple promise with delay timeout.
  */
 export function delayPromise(millis: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, millis));
+  return new Promise(resolve => setTimeout(resolve, millis))
 }
 
 // export async function generatePgpFiles(baseDir: string, privateKeyArmored: string, passphrase: string): Promise<void> {

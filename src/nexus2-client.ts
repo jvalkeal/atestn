@@ -1,6 +1,6 @@
-import fs from 'fs';
-import * as https from 'https';
-import axios, { AxiosInstance } from 'axios';
+import fs from 'fs'
+import * as https from 'https'
+import axios, { AxiosInstance } from 'axios'
 import {
   NexusServer,
   PromoteFinishRequest,
@@ -15,14 +15,14 @@ import {
   BulkPromoteRequest,
   BulkPromoteResponse,
   Activity
-} from './interfaces';
-import { logDebug, logInfo, logWarn } from './logging';
+} from './interfaces'
+import { logDebug, logInfo, logWarn } from './logging'
 
 /**
  * Client for nexus 2.x proving common operations.
  */
 export class Nexus2Client {
-  private instance: AxiosInstance;
+  private instance: AxiosInstance
 
   constructor(private nexusServer: NexusServer) {
     this.instance = axios.create({
@@ -38,7 +38,7 @@ export class Nexus2Client {
         Accept: 'application/json'
       },
       httpsAgent: new https.Agent({})
-    });
+    })
   }
 
   /**
@@ -51,18 +51,20 @@ export class Nexus2Client {
       this.instance
         .get(`${this.nexusServer.url}/service/local/staging/profiles`)
         .then(r => {
-          const stagingProfiles = r.data as StagingProfilesResponse;
-          const profile = stagingProfiles.data.find(p => p.name === stagingProfileName);
+          const stagingProfiles = r.data as StagingProfilesResponse
+          const profile = stagingProfiles.data.find(
+            p => p.name === stagingProfileName
+          )
           if (profile) {
-            resolve(profile.id);
+            resolve(profile.id)
           } else {
-            reject('No profile found');
+            reject('No profile found')
           }
         })
         .catch(e => {
-          reject(e);
-        });
-    });
+          reject(e)
+        })
+    })
   }
 
   /**
@@ -72,17 +74,23 @@ export class Nexus2Client {
    * @param stagingProfileId the staging profile id
    * @param data promote start request
    */
-  public createStagingRepo(stagingProfileId: string, data: PromoteStartRequest): Promise<PromoteStartResponse> {
+  public createStagingRepo(
+    stagingProfileId: string,
+    data: PromoteStartRequest
+  ): Promise<PromoteStartResponse> {
     return new Promise(async (resolve, reject) => {
       this.instance
-        .post(`${this.nexusServer.url}/service/local/staging/profiles/${stagingProfileId}/start`, data)
+        .post(
+          `${this.nexusServer.url}/service/local/staging/profiles/${stagingProfileId}/start`,
+          data
+        )
         .then(r => {
-          resolve(r.data as PromoteStartResponse);
+          resolve(r.data as PromoteStartResponse)
         })
         .catch(e => {
-          reject(e);
-        });
-    });
+          reject(e)
+        })
+    })
   }
 
   /**
@@ -91,17 +99,23 @@ export class Nexus2Client {
    * @param stagingProfileId the staging profile id
    * @param data promote finish request
    */
-  public closeStagingRepo(stagingProfileId: string, data: PromoteFinishRequest): Promise<PromoteFinishResponse> {
+  public closeStagingRepo(
+    stagingProfileId: string,
+    data: PromoteFinishRequest
+  ): Promise<PromoteFinishResponse> {
     return new Promise(async (resolve, reject) => {
       this.instance
-        .post(`${this.nexusServer.url}/service/local/staging/profiles/${stagingProfileId}/finish`, data)
+        .post(
+          `${this.nexusServer.url}/service/local/staging/profiles/${stagingProfileId}/finish`,
+          data
+        )
         .then(r => {
-          resolve(r.data as PromoteFinishResponse);
+          resolve(r.data as PromoteFinishResponse)
         })
         .catch(e => {
-          reject(e);
-        });
-    });
+          reject(e)
+        })
+    })
   }
 
   /**
@@ -109,17 +123,22 @@ export class Nexus2Client {
    *
    * @param data promote promote request
    */
-  public bulkPromoteStagingRepos(data: BulkPromoteRequest): Promise<BulkPromoteResponse> {
+  public bulkPromoteStagingRepos(
+    data: BulkPromoteRequest
+  ): Promise<BulkPromoteResponse> {
     return new Promise(async (resolve, reject) => {
       this.instance
-        .post(`${this.nexusServer.url}/service/local/staging/bulk/promote`, data)
+        .post(
+          `${this.nexusServer.url}/service/local/staging/bulk/promote`,
+          data
+        )
         .then(r => {
-          resolve(r.data as BulkPromoteResponse);
+          resolve(r.data as BulkPromoteResponse)
         })
         .catch(e => {
-          reject(e);
-        });
-    });
+          reject(e)
+        })
+    })
   }
 
   /**
@@ -128,17 +147,23 @@ export class Nexus2Client {
    * @param stagingProfileId the staging profile id
    * @param data propote dro request
    */
-  public dropStagingRepo(stagingProfileId: string, data: PromoteDropRequest): Promise<PromoteDropResponse> {
+  public dropStagingRepo(
+    stagingProfileId: string,
+    data: PromoteDropRequest
+  ): Promise<PromoteDropResponse> {
     return new Promise(async (resolve, reject) => {
       this.instance
-        .post(`${this.nexusServer.url}/service/local/staging/profiles/${stagingProfileId}/drop`, data)
+        .post(
+          `${this.nexusServer.url}/service/local/staging/profiles/${stagingProfileId}/drop`,
+          data
+        )
         .then(r => {
-          resolve(r.data as PromoteDropResponse);
+          resolve(r.data as PromoteDropResponse)
         })
         .catch(e => {
-          reject(e);
-        });
-    });
+          reject(e)
+        })
+    })
   }
 
   /**
@@ -147,12 +172,17 @@ export class Nexus2Client {
    * @param uploadFile file to upload
    * @param repositoryId the repository id
    */
-  public deployByRepository(uploadFile: UploadFile, repositoryId: string): Promise<void> {
-    logInfo(`Upload for file ${uploadFile.path} and repo ${repositoryId}`);
-    logDebug(`File ${uploadFile.path} repositoryId=${repositoryId} group=${uploadFile.group} name=${uploadFile.name}`);
+  public deployByRepository(
+    uploadFile: UploadFile,
+    repositoryId: string
+  ): Promise<void> {
+    logInfo(`Upload for file ${uploadFile.path} and repo ${repositoryId}`)
+    logDebug(
+      `File ${uploadFile.path} repositoryId=${repositoryId} group=${uploadFile.group} name=${uploadFile.name}`
+    )
     return new Promise(async (resolve, reject) => {
-      const stream = fs.createReadStream(uploadFile.path);
-      logInfo(`Handling file ${uploadFile.path}`);
+      const stream = fs.createReadStream(uploadFile.path)
+      logInfo(`Handling file ${uploadFile.path}`)
       this.instance
         .put(
           `${this.nexusServer.url}/service/local/staging/deployByRepositoryId/${repositoryId}/${uploadFile.group}/${uploadFile.name}`,
@@ -166,14 +196,14 @@ export class Nexus2Client {
           }
         )
         .then(r => {
-          logInfo(`OK ${uploadFile.path}`);
-          resolve();
+          logInfo(`OK ${uploadFile.path}`)
+          resolve()
         })
         .catch(e => {
-          logWarn(`ERROR ${uploadFile.path}`);
-          reject(e);
-        });
-    });
+          logWarn(`ERROR ${uploadFile.path}`)
+          reject(e)
+        })
+    })
   }
 
   /**
@@ -184,14 +214,16 @@ export class Nexus2Client {
   public stagingRepository(repositoryIdKey: string): Promise<Repository> {
     return new Promise(async (resolve, reject) => {
       this.instance
-        .get(`${this.nexusServer.url}/service/local/staging/repository/${repositoryIdKey}`)
+        .get(
+          `${this.nexusServer.url}/service/local/staging/repository/${repositoryIdKey}`
+        )
         .then(r => {
-          resolve(r.data as Repository);
+          resolve(r.data as Repository)
         })
         .catch(e => {
-          reject(e);
-        });
-    });
+          reject(e)
+        })
+    })
   }
 
   /**
@@ -199,16 +231,20 @@ export class Nexus2Client {
    *
    * @param repositoryIdKey
    */
-  public stagingRepositoryActivity(repositoryIdKey: string): Promise<Activity[]> {
+  public stagingRepositoryActivity(
+    repositoryIdKey: string
+  ): Promise<Activity[]> {
     return new Promise(async (resolve, reject) => {
       this.instance
-        .get<Activity[]>(`${this.nexusServer.url}/service/local/staging/repository/${repositoryIdKey}/activity`)
+        .get<Activity[]>(
+          `${this.nexusServer.url}/service/local/staging/repository/${repositoryIdKey}/activity`
+        )
         .then(r => {
-          resolve(r.data);
+          resolve(r.data)
         })
         .catch(e => {
-          reject(e);
-        });
-    });
+          reject(e)
+        })
+    })
   }
 }
