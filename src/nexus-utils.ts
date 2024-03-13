@@ -3,7 +3,7 @@ import { Nexus2Client } from './nexus2-client';
 import { ActionOptions, Activity, PromoteStartRequest, Repository, UploadFile } from './interfaces';
 import { findFiles, delayPromise } from './utils';
 import { logDebug, logInfo } from './logging';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 /**
  * Create a staging repo and return its id for furher operations.
@@ -133,12 +133,6 @@ export async function waitRepoState(
             return;
           }
         }
-        // if (error instanceof Error) {
-        // }
-        // if (error.response.status === 404 && seenRepo) {
-        //   resolve();
-        //   return;
-        // }
       }
       if (repository) {
         logInfo(`Repo state ${repository.type}`);
