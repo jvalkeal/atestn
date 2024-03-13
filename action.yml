@@ -1,6 +1,5 @@
 name: 'Nexus Sync'
-description: 'Nexus Sync'
-author: 'jvalkeal'
+description: 'Sync artifacts to Nexus'
 inputs:
   username:
     description: 'Nexus username'
@@ -43,15 +42,6 @@ inputs:
     required: false
   generate-checksums-config:
     description: 'Config to generate checksum files.'
-    required: false
-  pgp-sign:
-    description: 'Sign files, defaults to "false"'
-    required: false
-  pgp-sign-private-key:
-    description: 'PGP private key as ascii armored'
-    required: false
-  pgp-sign-passphrase:
-    description: 'PGP private key passphrase'
     required: false
   url:
     description: 'Base Nexus url, defaults to "https://oss.sonatype.org"'
