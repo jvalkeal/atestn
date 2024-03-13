@@ -28495,14 +28495,12 @@ const util_1 = __nccwpck_require__(3837);
 const logging_1 = __nccwpck_require__(1517);
 const nexus_utils_1 = __nccwpck_require__(4189);
 const nexus2_client_1 = __nccwpck_require__(5880);
-// import { generateChecksumFiles, generatePgpFiles, delayPromise } from './utils';
 const utils_1 = __nccwpck_require__(1314);
 async function handle(actionOptions) {
     const nexusClient = new nexus2_client_1.Nexus2Client(actionOptions.nexusServer);
     (0, logging_1.logDebug)(`Using nexus server ${actionOptions.nexusServer.url} with timeout ${actionOptions.nexusServer.timeout}`);
     // initial state calculated from a given options
     const handlerState = {
-        needSign: actionOptions.gpgSign,
         needChecksum: actionOptions.generateChecksums,
         needCreate: actionOptions.create,
         stagingRepoId: actionOptions.stagingRepoId,
@@ -28511,13 +28509,6 @@ async function handle(actionOptions) {
         needRelease: actionOptions.release,
         needDrop: actionOptions.dropIfFailure
     };
-    // need to sign
-    // if (handlerState.needSign) {
-    //   startGroup('PGP Sign');
-    //   logInfo('Signing files');
-    //   await generatePgpFiles(actionOptions.dir, actionOptions.gpgSignPrivateKey, actionOptions.gpgSignPassphrase);
-    //   endGroup();
-    // }
     // need to checksum
     if (handlerState.needChecksum) {
         (0, logging_1.startGroup)('Checksums');
@@ -28739,9 +28730,6 @@ async function run() {
         const generateChecksumsConfig = generateChecksumsConfigData
             ? JSON.parse(generateChecksumsConfigData)
             : interfaces_1.DEFAULT_GENERATE_CHECKSUM_CONFIG;
-        const pgpSign = inputNotRequired('pgp-sign') === 'true' ? true : false;
-        const pgpSignPrivateKey = inputNotRequired('pgp-sign-private-key');
-        const pgpSignPassphrase = inputNotRequired('pgp-sign-passphrase');
         const nexusTimeout = (0, utils_1.numberValue)(inputNotRequired('nexus-timeout'), 0);
         if (uploadParallel < 1) {
             throw new Error(`'upload-parallel' needs to be higher than 0, was ${uploadParallel}`);
@@ -28766,10 +28754,7 @@ async function run() {
                 timeout: nexusTimeout * 1000
             },
             generateChecksums,
-            generateChecksumsConfig,
-            gpgSign: pgpSign,
-            gpgSignPassphrase: pgpSignPassphrase,
-            gpgSignPrivateKey: pgpSignPrivateKey
+            generateChecksumsConfig
         };
         await (0, handler_1.handle)(actionOptions);
     }
@@ -29196,10 +29181,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.delayPromise = exports.numberValue = exports.generateChecksumFiles = exports.createCheckSums = exports.findFiles = void 0;
 const fs_1 = __importDefault(__nccwpck_require__(7147));
-// import glob from 'glob';
 const glob_1 = __nccwpck_require__(8211);
 const path_1 = __importDefault(__nccwpck_require__(1017));
-// import { createMessage, readKey, decryptKey, sign, stream } from 'openpgp';
 const crypto_1 = __importDefault(__nccwpck_require__(6113));
 const logging_1 = __nccwpck_require__(1517);
 /**
@@ -29316,43 +29299,6 @@ function delayPromise(millis) {
     return new Promise(resolve => setTimeout(resolve, millis));
 }
 exports.delayPromise = delayPromise;
-// export async function generatePgpFiles(baseDir: string, privateKeyArmored: string, passphrase: string): Promise<void> {
-//   return new Promise((resolve, reject) => {
-//     glob(baseDir + '/**/!(*.asc)', (error, files) => {
-//       if (error) {
-//         reject(error);
-//         return;
-//       }
-//       let all: Promise<void>[] = [];
-//       files.forEach(path => {
-//         const stat = fs.lstatSync(path);
-//         if (stat.isFile()) {
-//           const p = pgpSign(path, privateKeyArmored, passphrase).then(sig => {
-//             const dpath = `${path}.asc`;
-//             logInfo(`Writing ${dpath}`);
-//             fs.writeFileSync(dpath, sig);
-//           });
-//           all.push(p);
-//         }
-//       });
-//       resolve(Promise.all(all).then());
-//     });
-//   });
-// }
-// export async function pgpSign(path: string, privateKeyArmored: string, passphrase: string): Promise<string> {
-//   const privateKey = await decryptKey({
-//     privateKey: await readKey({ armoredKey: privateKeyArmored }),
-//     passphrase
-//   });
-//   const readStream = fs.createReadStream(path);
-//   const message = await createMessage({ binary: readStream });
-//   const resultStream = await sign({
-//     message,
-//     privateKeys: privateKey,
-//     detached: true
-//   });
-//   return await stream.readToEnd(resultStream);
-// }
 
 
 /***/ }),
